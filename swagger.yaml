@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Posts API
+  description: API for managing posts
+  version: 1.0.0
+paths:
+  /posts:
+    get:
+      summary: Get all posts
+      operationId: getPosts
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostsList"
+    post:
+      summary: Create a new post
+      operationId: createPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "201":
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+  /posts/{id}:
+    get:
+      summary: Get a post by ID
+      operationId: getPostById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post ID
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          description: Post not found
+    put:
+      summary: Update a post by ID
+      operationId: updatePostById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "200":
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          description: Post not found
+    delete:
+      summary: Delete a post by ID
+      operationId: deletePostById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post ID
+      responses:
+        "200":
+          description: Post deleted successfully
+        "404":
+          description: Post not found
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The auto-generated ID of the post
+        title:
+          type: string
+          description: The title of the post
+        postText:
+          type: string
+          description: The post text
+        username:
+          type: string
+          description: The username of the post author
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time the post was created
+    PostsList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Post"
